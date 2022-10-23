@@ -1,6 +1,6 @@
 {
   "name": "jibs-html-renderer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "HTML Rendering engine for Jibs",
   "main": "./lib/index.js",
   "browser": "./dist/index.js",
@@ -11,12 +11,14 @@
     "test-watch": "watch 'clear ; node ./node_modules/.bin/jasmine' . --wait=2 --interval=1",
     "build": "./node_modules/.bin/webpack"
   },
-  "keywords": ["vdom",
+  "keywords": [
+    "vdom",
     "html",
     "spa",
     "react",
     "vue",
-    "angular"],
+    "angular"
+  ],
   "author": "Wyatt Greenway",
   "license": "MIT",
   "devDependencies": {
