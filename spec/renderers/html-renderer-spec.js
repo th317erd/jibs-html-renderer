@@ -1,13 +1,11 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-magic-numbers */
 
-'use strict';
-
 /* global describe, beforeEach, expect, spyOn, it */
 
-const { JSDOM }         = require('jsdom');
-const { HTMLRenderer }  = require('../../lib/renderers/html-renderer');
-const { $, Component }  = require('jibs');
+import { JSDOM }        from 'jsdom';
+import { HTMLRenderer } from '../../lib/index.js';
+import { $, Component } from 'jibs';
 
 describe('HTMLRenderer', () => {
   let window;

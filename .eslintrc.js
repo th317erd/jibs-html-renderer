@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-magic-numbers */
 
 module.exports = {
@@ -12,7 +10,8 @@ module.exports = {
     'eslint:recommended',
   ],
   'parserOptions': {
-    'ecmaVersion': 'latest',
+    'sourceType':   'module',
+    'ecmaVersion':  'latest',
   },
   'plugins': [
     '@spothero/eslint-plugin-spothero',
