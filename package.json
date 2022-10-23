@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "HTML Rendering engine for Jibs",
   "main": "./lib/index.js",
+  "browser": "./dist/index.js",
   "type": "module",
   "scripts": {
     "coverage": "clear ; node ./node_modules/.bin/nyc ./node_modules/.bin/jasmine",
