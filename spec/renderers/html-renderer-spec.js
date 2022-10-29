@@ -22,17 +22,17 @@ describe('HTMLRenderer', () => {
     renderer = new HTMLRenderer(rootNode, { document });
   });
 
-  it('can create text elements', () => {
+  it('can create text elements', async () => {
     const jib = $()(
       'Hello world!',
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
 
     expect(rootNode.innerHTML).toEqual('Hello world!');
   });
 
-  it('can create other elements', () => {
+  it('can create other elements', async () => {
     const jib = $()(
       $('span', { id: 'hello' })(
         'Hello world!',
@@ -41,12 +41,12 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
 
     expect(rootNode.innerHTML).toEqual('<span id="hello">Hello world!<br>Wow!</span>');
   });
 
-  it('can re-render', () => {
+  it('can re-render', async () => {
     const jib = $()(
       $('span', { id: 'hello' })(
         'Hello world!',
@@ -55,7 +55,7 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
     expect(rootNode.innerHTML).toEqual('<span id="hello">Hello world!<br>Wow!</span>');
 
     spyOn(renderer, 'destroyNativeElement').and.callThrough();
@@ -69,7 +69,7 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib2);
+    await renderer.render(jib2);
     expect(rootNode.innerHTML).toEqual('<span id="hello">Stuff!<hr><div>Test!</div></span>');
     expect(renderer.destroyNativeElement.calls.count()).toEqual(1);
     expect(renderer.destroyNativeElement.calls.argsFor(0)[0].nodeName).toEqual('BR');
@@ -122,7 +122,7 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
     results.push(rootNode.innerHTML);
 
     renderer.on('updated', (event) => {
@@ -160,8 +160,13 @@ describe('HTMLRenderer', () => {
     }
 
     class TestContextProvider extends Component {
-      render() {
+      constructor(...args) {
+        super(...args);
+
         this.context.caption = 'Cool Beans!';
+      }
+
+      render() {
         return $('div', { id: 'test' })(
           $('span', { id: 'count' })(
             ...this.children,
@@ -179,7 +184,7 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
     results.push(rootNode.innerHTML);
 
     expect(results).toEqual([
@@ -252,7 +257,7 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
     results.push(rootNode.innerHTML);
 
     renderer.on('updated', (event) => {
@@ -303,9 +308,13 @@ describe('HTMLRenderer', () => {
     }
 
     class Output extends Component {
-      render() {
-        this.context.test = 'context2';
+      constructor(...args) {
+        super(...args);
 
+        this.context.test = 'context2';
+      }
+
+      render() {
         if (this.output2Ref)
           results.push(`${this.output2Ref.getContextTest()}:${this.context.number}`);
 
@@ -333,10 +342,11 @@ describe('HTMLRenderer', () => {
         this.interval = setInterval(() => {
           this.context.number = (this.context.number || 0) + 1;
 
-          if (this.context.number >= 5) {
+          if (this.context.number > 4) {
             clearInterval(this.interval);
             this.interval = null;
-            resolve();
+
+            setTimeout(resolve, 10);
           }
         }, 1);
       }
@@ -360,12 +370,12 @@ describe('HTMLRenderer', () => {
       ),
     );
 
-    renderer.render(jib);
+    await renderer.render(jib);
 
     await promise;
 
     // This should destroy all component instances
-    renderer.render(null);
+    await renderer.render(null);
 
     expect(results).toEqual([
       'context2:1',
@@ -440,7 +450,7 @@ describe('HTMLRenderer', () => {
     await promise;
 
     // This should destroy all component instances
-    renderer.render(null);
+    await renderer.render(null);
 
     expect(clickHappened).toEqual(true);
   });
