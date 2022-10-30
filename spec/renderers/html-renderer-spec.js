@@ -22,6 +22,35 @@ describe('HTMLRenderer', () => {
     renderer = new HTMLRenderer(rootNode, { document });
   });
 
+  it('can parse style strings', () => {
+    let result = renderer._parseCSSStyleString({}, 'background-color: "red"; color: blue;padding-left:0px;margin-right:0');
+    expect(result).toEqual({
+      backgroundColor:  'red',
+      color:            'blue',
+      paddingLeft:      '0px',
+      marginRight:      '0',
+    });
+  });
+
+  it('can flatten styles', () => {
+    let result = renderer._flattenStyles({}, [
+      'background-color: "red"; color: blue;padding-left:0px;margin-right:0',
+      [ 'color: green', { paddingRight: 10 } ],
+      [ [ false, null, 0, true, { backgroundImage: 'test.png' } ] ],
+      { display: 'none' },
+    ]);
+
+    expect(result).toEqual({
+      backgroundColor:  'red',
+      color:            'green',
+      paddingLeft:      '0px',
+      marginRight:      '0',
+      paddingRight:     10,
+      backgroundImage:  'test.png',
+      display:          'none',
+    });
+  });
+
   it('can create text elements', async () => {
     const jib = $()(
       'Hello world!',
@@ -72,9 +101,9 @@ describe('HTMLRenderer', () => {
     await renderer.render(jib2);
     expect(rootNode.innerHTML).toEqual('<span id="hello">Stuff!<hr><div>Test!</div></span>');
     expect(renderer.destroyNativeElement.calls.count()).toEqual(1);
-    expect(renderer.destroyNativeElement.calls.argsFor(0)[0].nodeName).toEqual('BR');
+    expect(renderer.destroyNativeElement.calls.argsFor(0)[1].nodeName).toEqual('BR');
     expect(renderer.destroyTextElement.calls.count()).toEqual(1);
-    expect(renderer.destroyTextElement.calls.argsFor(0)[0].nodeValue).toEqual('Wow!');
+    expect(renderer.destroyTextElement.calls.argsFor(0)[1].nodeValue).toEqual('Wow!');
   });
 
   it('can render a component', async () => {
