@@ -99,6 +99,7 @@ describe('HTMLRenderer', () => {
     );
 
     await renderer.render(jib2);
+
     expect(rootNode.innerHTML).toEqual('<span id="hello">Stuff!<hr><div>Test!</div></span>');
     expect(renderer.destroyNativeElement.calls.count()).toEqual(1);
     expect(renderer.destroyNativeElement.calls.argsFor(0)[1].nodeName).toEqual('BR');
@@ -130,7 +131,7 @@ describe('HTMLRenderer', () => {
             clearInterval(this.interval);
             this.interval = null;
           }
-        }, 1);
+        }, 10);
       }
 
       render() {
@@ -140,6 +141,16 @@ describe('HTMLRenderer', () => {
             this.state.count,
           ),
         );
+      }
+
+      updated() {
+        let html = rootNode.innerHTML;
+        if (!html)
+          return;
+
+        results.push(html);
+        if (results.length > 5)
+          resolve();
       }
     }
 
@@ -153,17 +164,6 @@ describe('HTMLRenderer', () => {
 
     await renderer.render(jib);
     results.push(rootNode.innerHTML);
-
-    renderer.on('updated', (event) => {
-      if (event.action === 'deleted')
-        return;
-
-      Promise.resolve().then(() => {
-        results.push(rootNode.innerHTML);
-        if (results.length > 5)
-          resolve();
-      });
-    });
 
     await promise;
 
@@ -239,8 +239,13 @@ describe('HTMLRenderer', () => {
     }
 
     class Output extends Component {
-      render() {
+      constructor(...args) {
+        super(...args);
+
         this.context.test = 'context2';
+      }
+
+      render() {
         return $()(
           $('span', { id: 'output' })(
             this.context.number,
@@ -264,7 +269,7 @@ describe('HTMLRenderer', () => {
             clearInterval(this.interval);
             this.interval = null;
           }
-        }, 1);
+        }, 10);
       }
 
       render() {
@@ -275,6 +280,16 @@ describe('HTMLRenderer', () => {
             this.context.test,
           ),
         );
+      }
+
+      updated() {
+        let html = rootNode.innerHTML;
+        if (!html)
+          return;
+
+        results.push(html);
+        if (results.length > 5)
+          resolve();
       }
     }
 
@@ -288,17 +303,6 @@ describe('HTMLRenderer', () => {
 
     await renderer.render(jib);
     results.push(rootNode.innerHTML);
-
-    renderer.on('updated', (event) => {
-      if (event.action === 'deleted')
-        return;
-
-      Promise.resolve().then(() => {
-        results.push(rootNode.innerHTML);
-        if (results.length > 5)
-          resolve();
-      });
-    });
 
     await promise;
 
