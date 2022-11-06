@@ -1,6 +1,6 @@
 {
   "name": "jibs-html-renderer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "HTML Rendering engine for Jibs",
   "main": "./lib/index.js",
   "browser": "./dist/index.js",
