@@ -4,8 +4,7 @@
 /* global describe, beforeEach, expect, spyOn, it */
 
 import { JSDOM }        from 'jsdom';
-import { HTMLRenderer } from '../../lib/index.js';
-import { $, Component } from 'jibs';
+import { HTMLRenderer, $, Component } from '../../lib/index.js';
 
 describe('HTMLRenderer', () => {
   let window;
