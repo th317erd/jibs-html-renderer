@@ -44,6 +44,14 @@ html {
   background-color: hsla(var(--jibs-theme-background-invert-color-hue, 0), var(--jibs-theme-background-invert-color-saturation, 100%), calc(var(--jibs-theme-background-invert-color-lightness, 50%) * calc(var(--jibs-theme-background-invert-color-contrast, 0.75))), 0.5);
 }
 
+*::-webkit-scrollbar-thumb:active {
+  background-color: hsla(var(--jibs-theme-primary-color-hue, 0), var(--jibs-theme-primary-color-saturation, 100%), calc(var(--jibs-theme-primary-color-lightness, 50%) * var(--jibs-theme-primary-color-contrast, 0.75)), var(--jibs-theme-primary-color-opacity, 1.0));
+}
+
+*::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
 * {
   border-color: hsla(var(--jibs-theme-background-color-hue, 0), var(--jibs-theme-background-color-saturation, 100%), calc(var(--jibs-theme-background-color-lightness, 50%) * var(--jibs-theme-background-color-contrast, 0.75)), var(--jibs-theme-background-color-opacity, 1.0));
   border-style: var(--jibs-theme-border-style, var(--jibs-default-border-style, solid));
@@ -54,7 +62,7 @@ html {
   outline-color: hsla(var(--jibs-theme-primary-color-hue, 0), var(--jibs-theme-primary-color-saturation, 100%), var(--jibs-theme-primary-color-lightness, 50%), var(--jibs-theme-primary-color-opacity, 1.0));
   outline-style: dashed;
   outline-width: calc(var(--jibs-theme-border-width, var(--jibs-default-border-width, 0.1rem)) * 2.0);
-  outline-offset: 0.4rem;
+  outline-offset: 0.1rem;
 }
 
 *:focus-visible * {
