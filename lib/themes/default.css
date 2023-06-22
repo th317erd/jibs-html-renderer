@@ -11,6 +11,8 @@
   --jibs-default-h6-font-size: 2.0rem;
   --jibs-default-p-font-size: 2.0rem;
   --jibs-default-input-font-size: 2.0rem;
+  --jibs-default-animation-time: 250ms;
+  --jibs-default-animation-easing: ease-in-out;
 }
 
 html,body {
@@ -199,7 +201,7 @@ input[type="checkbox"]:checked {
 
 .jibs-tooltip[data-tooltip]::after {
   opacity: 0.0;
-  transition: opacity 250ms ease-in-out 500ms;
+  transition: opacity var(--jibs-default-animation-time, 250ms) var(--jibs-default-animation-easing, ease-in-out) calc(var(--jibs-default-animation-time, 250ms) * 2);
   display: block;
   position: absolute;
   top: 100%;
